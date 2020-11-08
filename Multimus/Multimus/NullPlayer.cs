@@ -9,5 +9,10 @@ namespace Multimus
     {
         bool IMediaPlayer.IsPaused { get => true; set { } }
         double IMediaPlayer.Position { get => 0.0; set { } }
+
+        public void Dispose()
+        {
+
+        }
     }
 }

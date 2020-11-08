@@ -6,37 +6,35 @@ using LibVLCSharp.Shared;
 
 namespace Multimus.Plugin.VLC
 {
-    public class VLCMediaPlayer : IMediaPlayer
+    public class VLCMediaPlayer : MediaPlayer, IMediaPlayer
     {
-        MediaPlayer mediaPlayer;
-        public VLCMediaPlayer(MediaPlayer player)
+        public VLCMediaPlayer(LibVLC libVLC) : base(libVLC)
         {
-            mediaPlayer = player;
         }
 
-        ~VLCMediaPlayer()
+        public VLCMediaPlayer(Media media) : base(media)
         {
-            mediaPlayer.Dispose();
         }
+
         public bool IsPaused 
         { 
-            get => !mediaPlayer.IsPlaying;
+            get => !IsPlaying;
             set
             {
                 if (value)
                 {
-                    mediaPlayer.Pause();
+                    Pause();
                 }
                 else
                 {
-                    mediaPlayer.Play();
+                    Play();
                 }
             }
         }
-        public double Position 
+        public new double Position 
         {
-            get => mediaPlayer.Position;
-            set => mediaPlayer.Position = (float)value;
+            get => base.Position;
+            set => base.Position = (float)value;
         }
 
     }

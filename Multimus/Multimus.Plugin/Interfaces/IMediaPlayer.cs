@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Multimus.Plugin
 {
-    public interface IMediaPlayer
+    public interface IMediaPlayer : IDisposable
     {
 
         bool IsPaused { get; set; }

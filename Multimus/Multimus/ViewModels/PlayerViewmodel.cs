@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Xamarin.Essentials;
+using AsyncAwaitBestPractices.MVVM;
 
 namespace Multimus.ViewModels
 {
@@ -15,7 +17,7 @@ namespace Multimus.ViewModels
 
         public PlayerViewmodel()
         {
-            InitCommand = new Command(() => setAudio());
+            InitCommand = new AsyncCommand(() => setAudio());
             PlayCommand = new Command(() => togglePlay());
         }
 
@@ -31,25 +33,29 @@ namespace Multimus.ViewModels
         void togglePlay()
         {
             CurrentPlayer.CurrendMediaPlayer.IsPaused = !(CurrentPlayer.CurrendMediaPlayer.IsPaused);
-            Task.Run(() =>
-            {
-                var pos = Position;
-                while (!(CurrentPlayer.CurrendMediaPlayer.IsPaused))
-                {
-                    if (pos != Position)
-                    {
-                        pos = Position;
-                        RaisePropertyChanged("Position");
-                        Thread.Sleep(100);
-                    }
-                }
-            });
+            //Task.Run(() =>
+            //{
+            //    var pos = Position;
+            //    while (!(CurrentPlayer.CurrendMediaPlayer.IsPaused))
+            //    {
+            //        if (pos != Position)
+            //        {
+            //            pos = Position;
+            //            RaisePropertyChanged("Position");
+            //            Thread.Sleep(100);
+            //        }
+            //    }
+            //});
         }
-        void setAudio()
+        async Task setAudio()
         {
-
-            CurrentPlayer.CurrendMediaPlayer = PlayerChooser.ChoosePlayer(MediaPath);
-            togglePlay();
+            await Task.Run(() =>
+            {
+                //TODO: Ensure single task runs at any time
+                CurrentPlayer.CurrendMediaPlayer.Dispose();
+                CurrentPlayer.CurrendMediaPlayer = PlayerChooser.ChoosePlayer(MediaPath);
+                togglePlay();
+            });
         }
 
 
