@@ -28,7 +28,7 @@ namespace Multimus
                     return (IMediaPlayer)response.Item2;
                 }
             }
-            return null;
+            return new NullPlayer();
         }
     }
 }
