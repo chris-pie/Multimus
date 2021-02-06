@@ -11,9 +11,9 @@ namespace Multimus
     {
         public App()
         {
-            var pluginList = new List<IPlayerPlugin>
+            var pluginList = new List<PluginSettings>
             {
-                new Multimus.Plugin.VLC.VLCPlugin()
+                new Multimus.PluginSettings(Multimus.Plugin.VLC.VLCPlugin())
             };
             PlayerChooser.Init(pluginList);
             InitializeComponent();

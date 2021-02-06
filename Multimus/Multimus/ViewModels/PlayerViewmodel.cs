@@ -51,10 +51,12 @@ namespace Multimus.ViewModels
         {
             await Task.Run(() =>
             {
-                //TODO: Ensure single task runs at any time
-                CurrentPlayer.CurrendMediaPlayer.Dispose();
-                CurrentPlayer.CurrendMediaPlayer = PlayerChooser.ChoosePlayer(MediaPath);
-                togglePlay();
+                //TODO: Ensure only single task runs at any time
+                var newplayer = PlayerChooser.ChoosePlayer(MediaPath);
+                //cancel if task waiting
+                CurrentPlayer.CurrendMediaPlayer = newplayer;
+                //cancel if task waiting
+                newplayer.IsPaused = false;
             });
         }
 
